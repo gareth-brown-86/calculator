@@ -6,6 +6,15 @@ import streamlit as st
 
 from backend import EvaluationError, evaluate_expression
 
+# (display_label, token) per cell; None = empty slot.
+_KEYPAD: list[list[tuple[str, str] | None]] = [
+    [("7", "7"), ("8", "8"), ("9", "9"), ("/", "/")],
+    [("4", "4"), ("5", "5"), ("6", "6"), ("×", "*")],
+    [("1", "1"), ("2", "2"), ("3", "3"), ("−", "-")],
+    [("0", "0"), (".", "."), ("(", "("), (")", ")")],
+    [("C", "C"), ("=", "="), ("＋", "+"), None],
+]
+
 
 def _init_state() -> None:
     st.session_state.setdefault("expression", "")
@@ -44,15 +53,14 @@ def main() -> None:
 
     st.text_input(
         "Expression",
-        key="expression",
+        value=st.session_state.expression,
         placeholder="e.g., 12 / (3 + 1)",
+        disabled=True,
     )
 
     action_cols = st.columns(2)
-    if action_cols[0].button("Calculate", use_container_width=True):
-        _calculate()
-    if action_cols[1].button("Clear", use_container_width=True):
-        _clear()
+    action_cols[0].button("Calculate", use_container_width=True, on_click=_calculate)
+    action_cols[1].button("Clear", use_container_width=True, on_click=_clear)
 
     if st.session_state.error:
         st.error(st.session_state.error)
@@ -60,24 +68,23 @@ def main() -> None:
         st.success(f"Result: {st.session_state.result}")
 
     st.subheader("Keypad")
-    keypad_rows = [
-        ["7", "8", "9", "/"],
-        ["4", "5", "6", "*"],
-        ["1", "2", "3", "-"],
-        ["0", ".", "+", "("],
-        [")", "C", "="],
-    ]
-
-    for row in keypad_rows:
+    for row in _KEYPAD:
         cols = st.columns(len(row))
-        for col, token in zip(cols, row):
-            if col.button(token, use_container_width=True):
-                if token == "C":
-                    _clear()
-                elif token == "=":
-                    _calculate()
-                else:
-                    _append_token(token)
+        for col, cell in zip(cols, row):
+            if cell is None:
+                continue
+            label, token = cell
+            if token == "C":
+                col.button(label, use_container_width=True, on_click=_clear)
+            elif token == "=":
+                col.button(label, use_container_width=True, on_click=_calculate)
+            else:
+                col.button(
+                    label,
+                    use_container_width=True,
+                    on_click=_append_token,
+                    args=(token,),
+                )
 
     st.subheader("History")
     if st.session_state.history:

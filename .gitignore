@@ -1,0 +1,18 @@
+# Virtual environment
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+dist/
+build/
+
+# pytest
+.pytest_cache/
+
+# Test artifacts (baselines are tracked; outputs are not)
+tests/visual_output/
+
+# macOS
+.DS_Store

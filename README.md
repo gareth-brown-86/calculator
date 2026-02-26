@@ -16,3 +16,29 @@ streamlit run app.py
 ```bash
 pytest
 ```
+
+## Frontend Tests
+
+```bash
+pip install -r requirements.txt
+python -m playwright install chromium
+```
+
+- Streamlit native widget tests:
+
+```bash
+pytest tests/test_streamlit_app.py -v
+```
+
+- Playwright rendered UI test:
+
+```bash
+pytest tests/test_playwright_ui.py -v
+```
+
+- Visual regression (first run creates baseline):
+
+```bash
+UPDATE_SNAPSHOTS=1 pytest tests/test_visual_regression.py -v
+pytest tests/test_visual_regression.py -v
+```

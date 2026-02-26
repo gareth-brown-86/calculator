@@ -3,18 +3,13 @@
 from __future__ import annotations
 
 import ast
-from dataclasses import dataclass
 from typing import Union
 
 Number = Union[int, float]
 
 
-@dataclass(frozen=True)
 class EvaluationError(Exception):
-    message: str
-
-    def __str__(self) -> str:
-        return self.message
+    """Raised when expression evaluation fails."""
 
 
 def evaluate_expression(expression: str) -> Number:
