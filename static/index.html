@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="calculator">
+        <h1>Calculator</h1>
+
+        <!-- Expression display / input -->
+        <input
+            type="text"
+            id="expression"
+            placeholder="Type or tap…"
+            autocomplete="off"
+            spellcheck="false"
+            autofocus
+        >
+
+        <!-- Result bar -->
+        <div id="result-bar" class="result-bar"></div>
+
+        <!-- Keypad -->
+        <div class="keypad">
+            <div class="row">
+                <button data-action="clear" class="btn util">C</button>
+                <button data-action="backspace" class="btn util">⌫</button>
+                <button data-token="(" class="btn op">(</button>
+                <button data-token=")" class="btn op">)</button>
+            </div>
+            <div class="row">
+                <button data-token="7" class="btn num">7</button>
+                <button data-token="8" class="btn num">8</button>
+                <button data-token="9" class="btn num">9</button>
+                <button data-token="/" class="btn op">/</button>
+            </div>
+            <div class="row">
+                <button data-token="4" class="btn num">4</button>
+                <button data-token="5" class="btn num">5</button>
+                <button data-token="6" class="btn num">6</button>
+                <button data-token="*" class="btn op">×</button>
+            </div>
+            <div class="row">
+                <button data-token="1" class="btn num">1</button>
+                <button data-token="2" class="btn num">2</button>
+                <button data-token="3" class="btn num">3</button>
+                <button data-token="-" class="btn op">−</button>
+            </div>
+            <div class="row">
+                <button data-token="0" class="btn num">0</button>
+                <button data-token="." class="btn op">.</button>
+                <button data-token="+" class="btn op">＋</button>
+                <button data-action="equals" class="btn equals">=</button>
+            </div>
+        </div>
+
+        <!-- History -->
+        <details class="history">
+            <summary>History</summary>
+            <div id="history-list" class="history-list">
+                <p class="history-empty">No calculations yet.</p>
+            </div>
+        </details>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

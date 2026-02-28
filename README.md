@@ -1,44 +1,41 @@
 # Calculator
 
-A Streamlit-based calculator with a simple UI and a safe Python backend.
+A calculator with a Go backend and vanilla HTML/CSS/JS frontend.
+The Go server evaluates arithmetic expressions safely and serves the static UI.
+
+## Prerequisites
+
+- [Go](https://go.dev/dl/) 1.21+
 
 ## Run
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-streamlit run app.py
+go run .
+```
+
+Open http://localhost:8080. Set `PORT` to change the port:
+
+```bash
+PORT=3000 go run .
+```
+
+## Build
+
+```bash
+go build -o calculator .
+./calculator
 ```
 
 ## Tests
 
 ```bash
-pytest
+go test -v
 ```
 
-## Frontend Tests
+## Features
 
-```bash
-pip install -r requirements.txt
-python -m playwright install chromium
-```
-
-- Streamlit native widget tests:
-
-```bash
-pytest tests/test_streamlit_app.py -v
-```
-
-- Playwright rendered UI test:
-
-```bash
-pytest tests/test_playwright_ui.py -v
-```
-
-- Visual regression (first run creates baseline):
-
-```bash
-UPDATE_SNAPSHOTS=1 pytest tests/test_visual_regression.py -v
-pytest tests/test_visual_regression.py -v
-```
+- Click keypad buttons **or** type on your keyboard — focus stays on the input
+- Supports `+`, `-`, `*`, `/`, parentheses, unary operators
+- Calculation history with one-click reload
+- Catppuccin Mocha dark theme
+- Single binary — frontend is embedded at compile time

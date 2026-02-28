@@ -14,5 +14,8 @@ build/
 # Test artifacts (baselines are tracked; outputs are not)
 tests/visual_output/
 
+# Go
+calculator
+
 # macOS
 .DS_Store

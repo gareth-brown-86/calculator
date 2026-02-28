@@ -1,0 +1,172 @@
+/* ═══════════════════════════════════════════════
+   Calculator – Catppuccin Mocha theme
+   ═══════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    background: #181825;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* ── Calculator card ── */
+.calculator {
+    max-width: 24rem;
+    width: 100%;
+    background: #1e1e2e;
+    border-radius: 20px;
+    padding: 1.5rem 1.25rem;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.45),
+        0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+h1 {
+    color: #cdd6f4;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+}
+
+/* ── Expression input ── */
+#expression {
+    width: 100%;
+    background: #11111b;
+    color: #cdd6f4;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 1.6rem;
+    text-align: right;
+    border: 2px solid #313244;
+    border-radius: 14px 14px 0 0;
+    padding: 0.9rem 1rem;
+    caret-color: #89b4fa;
+    outline: none;
+}
+#expression::placeholder { color: #585b70; }
+#expression:focus { border-color: #89b4fa; box-shadow: 0 0 0 1px #89b4fa; }
+
+/* ── Result bar ── */
+.result-bar {
+    background: #11111b;
+    border-radius: 0 0 14px 14px;
+    border: 2px solid #313244;
+    border-top: none;
+    padding: 0.2rem 1rem 0.6rem;
+    margin-bottom: 0.75rem;
+    height: 2.8rem;
+    overflow: hidden;
+    text-align: right;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+}
+.result-bar .value { font-size: 1.7rem; font-weight: 700; color: #a6e3a1; }
+.result-bar .error { font-size: 0.95rem; color: #f38ba8; }
+
+/* ── Keypad ── */
+.keypad {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+.row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.45rem;
+}
+
+/* ── Shared button styles ── */
+.btn {
+    height: 3.4rem;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.06s ease, filter 0.06s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+.btn:hover { filter: brightness(1.15); }
+.btn:active { transform: scale(0.94); }
+
+/* Number buttons */
+.btn.num { background: #313244; color: #cdd6f4; }
+
+/* Operator buttons */
+.btn.op { background: #45475a; color: #f9e2af; }
+
+/* Utility (C, backspace) */
+.btn.util { background: #45475a; color: #f38ba8; }
+
+/* Equals */
+.btn.equals {
+    background: linear-gradient(135deg, #89b4fa, #74c7ec);
+    color: #1e1e2e;
+    font-size: 1.35rem;
+}
+
+/* ── History ── */
+.history {
+    border: 1px solid #313244;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-top: 0.75rem;
+}
+.history summary {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #6c7086;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    list-style: none;
+}
+.history summary::-webkit-details-marker { display: none; }
+.history summary::before { content: "▸ "; }
+.history[open] summary::before { content: "▾ "; }
+
+.history-list {
+    padding: 0 1rem 0.5rem;
+    max-height: 12rem;
+    overflow-y: auto;
+}
+.history-entry {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid #313244;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 0.82rem;
+    color: #6c7086;
+}
+.history-expr {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.history-load {
+    background: none;
+    border: 1px solid #45475a;
+    border-radius: 6px;
+    color: #89b4fa;
+    cursor: pointer;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.8rem;
+}
+.history-load:hover { background: #313244; }
+.history-empty { color: #585b70; font-size: 0.82rem; }
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+    .calculator { padding: 0.75rem 0.75rem 1.25rem; }
+    #expression { font-size: 1.3rem; padding: 0.65rem 0.75rem; }
+    .result-bar .value { font-size: 1.4rem; }
+    .btn { height: 3rem; font-size: 1.1rem; border-radius: 10px; }
+    h1 { font-size: 1.25rem; }
+}
