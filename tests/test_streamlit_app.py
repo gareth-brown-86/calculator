@@ -28,3 +28,12 @@ def test_streamlit_keypad_calculation() -> None:
     for label in ("8", "/", "2", "="):
         app = _click_button(app, label)
     assert app.session_state["result"] == 4
+
+
+def test_enter_key_triggers_calculation() -> None:
+    """Typing an expression and pressing Enter (submitting text_input) should compute."""
+    app = AppTest.from_file(_APP_PATH).run()
+    # Simulate typing into the text input and pressing Enter
+    app.text_input(key="_expr_input").set_value("10+5").run()
+    assert app.session_state["result"] == 15
+    assert app.session_state["expression"] == "10+5"

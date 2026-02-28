@@ -76,3 +76,42 @@ def test_playwright_keypad_latency(page: Page) -> None:
         assert (
             latency < max_latency
         ), f"Pressing '{button_name}' took {latency:.2f}s (limit {max_latency}s)"
+
+
+def test_enter_key_computes_result(page: Page) -> None:
+    """Typing into the input and pressing Enter should produce a result."""
+    expression_input = page.get_by_label("Expression")
+    expression_input.click()
+    expression_input.fill("6*7")
+    expression_input.press("Enter")
+    # Wait for Streamlit to rerun and show the result
+    page.wait_for_timeout(2000)
+    result_bar = page.locator(".calc-result-bar")
+    assert "42" in result_bar.inner_text()
+
+
+def test_no_press_enter_to_apply_text(page: Page) -> None:
+    """The Streamlit 'Press Enter to apply' helper text should be hidden."""
+    # The helper text lives inside the stTextInput container
+    text_input_container = page.locator('[data-testid="stTextInput"]')
+    visible_text = text_input_container.inner_text()
+    assert (
+        "press enter" not in visible_text.lower()
+    ), f"'Press Enter to apply' helper text should be hidden, got: {visible_text!r}"
+
+
+def test_result_bar_no_layout_shift(page: Page) -> None:
+    """The result bar should keep the same height before and after a calculation."""
+    result_bar = page.locator(".calc-result-bar")
+    height_before = result_bar.bounding_box()["height"]
+
+    # Perform a calculation
+    page.get_by_role("button", name="9").click()
+    _wait_for_expression(page, "9")
+    page.get_by_role("button", name="=").click()
+    page.wait_for_timeout(1000)
+
+    height_after = result_bar.bounding_box()["height"]
+    assert (
+        height_before == height_after
+    ), f"Result bar changed height: {height_before}px -> {height_after}px"
